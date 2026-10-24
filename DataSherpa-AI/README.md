@@ -8,7 +8,7 @@ drop last month?"* — and get a formal report: key numbers, charts, possible re
 steps. Every number is calculated from your data, **checked a second way**, and nothing is final
 until **you approve** it.
 
-![DataSherpa AI infographic](infographic.png)
+![DataSherpa AI infographic](DataSherpa-AI-infographic.png)
 
 ## 🎥 Demo
 
