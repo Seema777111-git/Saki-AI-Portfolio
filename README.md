@@ -1,6 +1,10 @@
 # Seema — AI Portfolio
 
-Hi, I'm **Seema**. I build practical AI applications for businesses: voice assistants, multi-agent systems, document question-answering and booking software, with answers you can verify. This repository showcases my projects with demo videos, infographics and technical guides. Where source code is private, a walkthrough is available on request.
+Hi, I'm **Seema** (RayalaSeema NT), an AI product builder based in Chennai, India. I have **13+ years** of experience in IT across banking and healthcare technology, including digital banking at **Citi** (five major banking products launched) and healthcare product work at **Cognizant**. I now build practical AI applications for businesses: AI agents, voice assistants, market research agents, lead-to-quote automation, document question-answering and booking software, with answers you can verify.
+
+This repository showcases my projects with demo videos, infographics and technical guides. Where source code is private, a walkthrough is available on request.
+
+**Open to:** AI and SaaS projects, product collaborations and remote contract work.
 
 ## Projects
 
@@ -16,4 +20,4 @@ Hi, I'm **Seema**. I build practical AI applications for businesses: voice assis
 
 ## Contact
 
-📧 seems.saki@gmail.com
+📧 seems.saki@gmail.com · 💼 [LinkedIn](https://www.linkedin.com/in/rayalaseema-nt-57a35565/) · 🎞️ [Project showcase](https://seema777111-git.github.io/Saki-AI-Portfolio/)
