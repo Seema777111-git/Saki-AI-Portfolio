@@ -12,7 +12,7 @@ PROJECTS = [
   promise="Turn customer reviews into clear, actionable insights in seconds.",
   summary="Upload reviews as a CSV and ReviewLens reads every one. It tags sentiment, category and urgency, then shows the top pros and cons, critical issues and a weekly insights report on one dashboard.",
   status="Working demo", tech=["Python","Streamlit","LangChain","Pydantic","Pandas","LLM integration"],
-  links=[("🌐 Live demo","https://reviewlens.royalseemah.tech/"),("GitHub","https://github.com/Seema777111-git/ReviewLens")],
+  links=[("GitHub","https://github.com/Seema777111-git/ReviewLens")],
   videos=[("Demo", CDN+"Saki-AI-Portfolio@1e8349b/ReviewLens/demo/reviewlens-demo.mp4","Walkthrough of the app using synthetic demo data")],
   problem="Popular products and businesses collect <b>thousands of reviews</b>, and nobody has time to read them all. Important feedback stays hidden in long, messy text, and star ratings alone don't explain <i>why</i> customers are happy or unhappy.",
   solution=[("Every review tagged","sentiment, category, urgency and language"),("Validated AI output","LangChain with Pydantic structured responses"),("Weekly insights report","positive themes, recurring complaints, critical issues and three recommended actions"),("High-urgency alerts","plus a suggested reply for each review"),("English, Tamil and Tanglish","reviews supported")],
