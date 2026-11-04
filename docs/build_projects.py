@@ -241,7 +241,8 @@ def build(p):
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
 <style>{CSS}</style></head><body>
 {''.join(out)}
-<script>const io=new IntersectionObserver(es=>es.forEach(e=>{{if(e.isIntersecting){{e.target.classList.add("in");io.unobserve(e.target)}}}}),{{threshold:.08}});document.querySelectorAll(".reveal").forEach(el=>io.observe(el));</script>
+<script>const io=new IntersectionObserver(es=>es.forEach(e=>{{if(e.isIntersecting){{e.target.classList.add("in");io.unobserve(e.target)}}}}),{{threshold:.08}});document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+const tell=()=>parent.postMessage({{caseHeight:document.documentElement.scrollHeight}},"*");addEventListener("load",tell);addEventListener("resize",tell);setTimeout(tell,1500);</script>
 </body></html>"""
 
 if __name__ == "__main__":
