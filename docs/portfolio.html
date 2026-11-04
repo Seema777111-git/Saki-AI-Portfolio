@@ -187,6 +187,13 @@ body.noflags .flag{display:none}
   .jt .date,.jt .loc{text-align:left}
   .flag{position:static;display:inline-block;margin-bottom:10px}
 }
+
+/* ---- section-by-section mode (?part=N): one wide section per Notion embed ---- */
+body.part{background:#fff}
+body.part .viewport{padding:4px 2px 10px}
+body.part .site{max-width:none;margin:0;border-radius:16px;box-shadow:0 6px 24px rgba(69,64,75,.10)}
+body.part .reveal{opacity:1;transform:none;transition:none}
+body.part .inner{max-width:1180px}
 </style>
 </head>
 <body class="hs-c">
@@ -356,6 +363,20 @@ ct.addEventListener("scroll",()=>{const i=Math.round(ct.scrollLeft/step());[...d
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
+</script>
+
+<script>
+(function(){
+  const part=+new URLSearchParams(location.search).get("part")||0;
+  const tell=()=>{const site=document.querySelector(".site");parent.postMessage({homePart:part,h:Math.ceil(site.getBoundingClientRect().bottom+scrollY+12)},"*")};
+  if(part){
+    document.body.classList.add("part");
+    const groups={1:[0],2:[1],3:[2],4:[3],5:[4],6:[5],7:[6,7,8]};
+    const kids=[...document.querySelector(".site").children];
+    kids.forEach((el,i)=>{if(!(groups[part]||[]).includes(i))el.style.display="none"});
+  }
+  addEventListener("load",tell);addEventListener("resize",tell);new ResizeObserver(tell).observe(document.body);setTimeout(tell,800);setTimeout(tell,2500);
+})();
 </script>
 </body>
 </html>
