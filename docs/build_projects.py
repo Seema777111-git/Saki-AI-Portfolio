@@ -5,6 +5,7 @@ OUT = os.path.join(os.path.dirname(__file__), "projects")
 HOME = "https://rural-lunch-f54.notion.site/40d35114c675811b92afe36f58b0b3b5"
 RAW = "https://raw.githubusercontent.com/Seema777111-git/Saki-AI-Portfolio/main/"
 CDN = "https://cdn.jsdelivr.net/gh/Seema777111-git/"
+COVER = "https://cdn.jsdelivr.net/gh/Seema777111-git/Saki-AI-Portfolio@f9ff997/"
 E = html.escape
 
 PROJECTS = [
@@ -196,6 +197,14 @@ details p{margin-top:8px;font-size:13.5px}
 .con b{display:block;font-family:var(--h);color:var(--purple);font-size:14.5px;margin:2px 0 3px}.con span{font-size:12.8px}
 .minih{font-family:var(--h);font-size:16px;color:var(--purple);margin:22px 0 0}
 @media (max-width:640px){.cons{grid-template-columns:1fr}}
+.cover{display:block;width:100%;aspect-ratio:5/1;object-fit:cover;object-position:center;background:#F6F0FD}
+.split{display:grid;grid-template-columns:1.45fr 1fr;gap:28px;align-items:start}
+.glance{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow)}
+.glance h3{font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--pink);margin-bottom:10px}
+.glance dl{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:13.5px}
+.glance dt{font-weight:600;color:var(--purple)}
+.glance .meta{margin-top:12px}
+@media (max-width:640px){.cover{aspect-ratio:2/1}.split{grid-template-columns:1fr}}
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}.reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
 @media (max-width:640px){.sec,.hero,.foot{padding-left:18px;padding-right:18px}.two,.vals,.shots,.steps{grid-template-columns:1fr}
@@ -248,7 +257,13 @@ def build(p):
     tags = f'<span class="tag ok">✅ {E(p["status"])}</span><span class="tag cat">{E(p["cat"])}</span>' + "".join(f'<span class="tag">{E(t)}</span>' for t in p["tech"])
     btns = "".join(f'<a class="btn{" primary" if i == 0 else ""}" href="{u}" target="_blank" rel="noopener">{E(t)}</a>' for i, (t, u) in enumerate(p.get("links", [])))
     price = f'<p class="price">💰 {E(p["price"])}</p>' if p.get("price") else ""
-    hero = f'<header class="hero"><div class="inner reveal"><span class="eyebrow">{p["icon"]} {E(p["cat"])}</span><h1 class="promise">{E(p["promise"])}</h1><p class="summary">{E(p["summary"])}</p><div class="meta">{tags}</div>{price}{f"<div class=btns>{btns}</div>" if btns else ""}</div></header>'
+    cover = f'<img class="cover" src="{COVER}{p["slug"]}/images/cover.jpg" alt="{E(p["name"])} cover">'
+    rows = f'<dt>Status</dt><dd>✅ {E(p["status"])}</dd><dt>Category</dt><dd>{E(p["cat"])}</dd>'
+    if p.get("price"): rows += f'<dt>Price</dt><dd>{E(p["price"])}</dd>'
+    techtags = "".join(f'<span class="tag">{E(t)}</span>' for t in p["tech"])
+    left = f'<span class="eyebrow">{p["icon"]} {E(p["name"])}</span><h1 class="promise">{E(p["promise"])}</h1><p class="summary">{E(p["summary"])}</p>{f"<div class=btns>{btns}</div>" if btns else ""}'
+    right = f'<aside class="glance"><h3>At a glance</h3><dl>{rows}</dl><div class="meta">{techtags}</div></aside>'
+    hero = f'{cover}<header class="hero"><div class="inner reveal split"><div>{left}</div>{right}</div></header>'
     out, n = [hero], 0
     vids = p["videos"]
     if len(vids) > 1:
