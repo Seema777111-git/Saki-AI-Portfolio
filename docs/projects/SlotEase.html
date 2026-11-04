@@ -65,6 +65,13 @@ details p{margin-top:8px;font-size:13.5px}
 .foot{padding:26px 48px 34px;border-top:1px solid var(--line)}
 .foot p{font-size:12.5px;color:var(--muted)}
 .foot .btns{margin-top:12px}
+.rag{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 18px 8px;box-shadow:var(--shadow);max-width:1000px}
+.rag svg{width:100%;height:auto;display:block}
+.cons{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;max-width:1000px}
+.con{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.con b{display:block;font-family:var(--h);color:var(--purple);font-size:14.5px;margin:2px 0 3px}.con span{font-size:12.8px}
+.minih{font-family:var(--h);font-size:16px;color:var(--purple);margin:22px 0 0}
+@media (max-width:640px){.cons{grid-template-columns:1fr}}
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}.reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
 @media (max-width:640px){.sec,.hero,.foot{padding-left:18px;padding-right:18px}.two,.vals,.shots,.steps{grid-template-columns:1fr}

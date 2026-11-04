@@ -86,7 +86,11 @@ PROJECTS = [
   problem="Teams need answers from policies, contracts and manuals, but ordinary chatbots can invent facts and offer no way to check them. In business use, every answer must be traceable to its source.",
   solution=[("Two search methods","vector search plus a knowledge graph"),("Evidence with every answer","passages, facts, scores and timings"),("Guardrails","check the question and the answer, including grounding"),("Measured quality","with built-in evaluation")],
   results_title="Results", stats=[("77","automated tests"),("3","retrieval modes compared: hybrid, vector-only, graph-only"),("4","evaluation metrics: faithfulness, answer relevancy, contextual precision, contextual recall")],
-  flow="PDF → text chunks → vector index (FAISS) + facts in a knowledge graph (NetworkX) → question → input guardrail → vector search + graph search → combined evidence → answer → output guardrail → answer with all evidence",
+  rag=dict(
+   index=[("📄","Your PDFs","Policies, contracts, manuals"),("✂️","Chunking","Split into text chunks"),("🧮","Embeddings","sentence-transformers"),("🗂️","Two indexes","FAISS vectors + NetworkX knowledge graph")],
+   query=[("❓","Question","Asked in plain language"),("🛡️","Input guardrail","NeMo Guardrails checks it"),("🔎","Hybrid search","Vector search + graph search"),("🧠","Grounded answer","OpenAI or Claude, from the evidence"),("✅","Output check","Grounding guardrail, scores, trace")],
+   link=(3,2),
+   concepts=[("✂️","Chunking","Long documents are split into small passages so the right part can be found."),("🧮","Embeddings","Each passage becomes a list of numbers that captures its meaning."),("🔎","Vector search","Finds passages with a similar meaning to the question, even with different words."),("🕸️","Knowledge graph","Stores facts and how they connect, for questions that need relationships."),("🛡️","Guardrails","Check the question before and the answer after, including grounding."),("📏","Evaluation","DeepEval scores faithfulness, answer relevancy, contextual precision and recall; LangSmith traces each run.")]),
   value=[("🔎","Reliable answers","From internal documents."),("🧾","Evidence visible","Every answer can be checked."),("🤝","Trusted by staff","And by customers.")]),
 
  dict(slug="TN-Farmer-Scheme-AI", icon="🌾", name="TN Farmer Scheme AI", cat="RAG and search",
@@ -98,6 +102,11 @@ PROJECTS = [
   problem="Scheme information is spread across government pages written in official language, mostly in English. Many farmers never learn about subsidies that exist for them, or which documents they need.",
   solution=[("Multilingual","English, Tamil and Tanglish"),("Official data only","from the TN Agrisnet portal, with the source cited"),("Hybrid retrieval","meaning-based and keyword search, then reranking"),("Guardrails","refuse off-topic or unclear questions")],
   results_title="Results shown in the demo", stats=[("32","official schemes indexed"),("63","indexed text chunks"),("10/10","labelled evaluation questions passed (English, Tamil, Tanglish)")],
+  rag=dict(
+   index=[("🏛️","Official data","TN Agrisnet scheme pages"),("✂️","Chunking","32 schemes → 63 chunks"),("🧮","BGE embeddings","Meaning stored as numbers"),("🗂️","Two indexes","FAISS (meaning) + BM25 (keywords)")],
+   query=[("🗣️","Farmer asks","English, Tamil or Tanglish"),("🛡️","Guardrail","Refuses off-topic or unclear"),("🔎","Hybrid retrieval","Meaning + keyword search"),("🏅","Reranker","Cross-encoder picks the best"),("✅","Answer + source","Qwen 2.5, runs locally")],
+   link=(3,2),
+   concepts=[("🔎","Hybrid retrieval","Combines meaning-based search with keyword search, so both phrasing and exact scheme names are found."),("🔤","BM25","A keyword ranking method that rewards exact matches such as scheme names."),("🏅","Reranking","A cross-encoder reads each candidate passage with the question and keeps the most relevant."),("🏠","Local LLM","Qwen 2.5 runs locally through Ollama to write the final answer."),("🛡️","Guardrails","Off-topic or unclear questions are refused instead of guessed."),("🗣️","Multilingual","Questions in English, Tamil or Tanglish reach the same official data.")]),
   value=[("🗣️","In their own language","English, Tamil or Tanglish."),("📚","Official sources","Answers users can verify."),("🔁","Reusable approach","For any large set of rules or product information.")]),
 
  dict(slug="Voice-AI-Agent", icon="🎙️", name="Voice AI Agent", cat="Voice and automation",
@@ -180,11 +189,53 @@ details p{margin-top:8px;font-size:13.5px}
 .foot{padding:26px 48px 34px;border-top:1px solid var(--line)}
 .foot p{font-size:12.5px;color:var(--muted)}
 .foot .btns{margin-top:12px}
+.rag{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 18px 8px;box-shadow:var(--shadow);max-width:1000px}
+.rag svg{width:100%;height:auto;display:block}
+.cons{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;max-width:1000px}
+.con{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.con b{display:block;font-family:var(--h);color:var(--purple);font-size:14.5px;margin:2px 0 3px}.con span{font-size:12.8px}
+.minih{font-family:var(--h);font-size:16px;color:var(--purple);margin:22px 0 0}
+@media (max-width:640px){.cons{grid-template-columns:1fr}}
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}.reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
 @media (max-width:640px){.sec,.hero,.foot{padding-left:18px;padding-right:18px}.two,.vals,.shots,.steps{grid-template-columns:1fr}
  .head{padding-left:52px}.num{font-size:34px}.h2{font-size:20px}.promise{font-size:21px}}
 """
+
+def _wrap(t, n):
+    out, cur = [], ""
+    for w in t.split():
+        if len((cur + " " + w).strip()) <= n: cur = (cur + " " + w).strip()
+        else: out.append(cur); cur = w
+    out.append(cur); return out
+
+def rag_svg(r):
+    W, PAD, GAP = 960, 8, 26
+    def row(items, y, label, color):
+        n = len(items); bw = (W - 2 * PAD - GAP * (n - 1)) / n; parts = []; centers = []
+        parts.append(f'<text x="{PAD}" y="{y-14}" font-size="12.5" font-weight="700" letter-spacing="1.6" fill="{color}">{E(label)}</text>')
+        for i, (ic, t, d) in enumerate(items):
+            x = PAD + i * (bw + GAP); cx = x + bw / 2; centers.append((cx, x, bw))
+            parts.append(f'<rect x="{x:.1f}" y="{y}" width="{bw:.1f}" height="124" rx="14" fill="#fff" stroke="#E2D2F8" stroke-width="1.5"/>')
+            parts.append(f'<circle cx="{cx:.1f}" cy="{y+30}" r="19" fill="#F3EBFD" stroke="#C6A6F2"/><text x="{cx:.1f}" y="{y+37}" font-size="19" text-anchor="middle">{ic}</text>')
+            parts.append(f'<text x="{cx:.1f}" y="{y+70}" font-size="14" font-weight="700" fill="#7137B8" text-anchor="middle" font-family="Plus Jakarta Sans,Inter,sans-serif">{E(t)}</text>')
+            for k, ln in enumerate(_wrap(d, int(bw / 7.2))[:3]):
+                parts.append(f'<text x="{cx:.1f}" y="{y+90+k*15}" font-size="11.5" fill="#45404B" text-anchor="middle">{E(ln)}</text>')
+            if i < n - 1:
+                ax = x + bw + 3
+                parts.append(f'<path d="M{ax:.1f} {y+62} h{GAP-10}" stroke="#D94D9B" stroke-width="2.5" fill="none" marker-end="url(#ar)"/>')
+        return parts, centers
+    p1, c1 = row(r["index"], 34, "1 · INDEXING · done once", "#D94D9B")
+    p2, c2 = row(r["query"], 240, "2 · ANSWERING · every question", "#7137B8")
+    a, b = r["link"]; x1 = c1[a][0]; x2 = c2[b][0]
+    link = (f'<path d="M{x1:.1f} 160 C {x1:.1f} 200, {x2:.1f} 190, {x2:.1f} 236" stroke="#7137B8" stroke-width="2" stroke-dasharray="6 5" fill="none" marker-end="url(#ar2)"/>'
+            f'<text x="{(x1+x2)/2+8:.1f}" y="201" font-size="11.5" font-weight="600" fill="#7137B8">retrieves evidence</text>')
+    defs = ('<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#D94D9B"/></marker>'
+            '<marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7137B8"/></marker></defs>')
+    return f'<div class="rag"><svg viewBox="0 0 {W} 380" role="img" aria-label="How retrieval-augmented generation works in this project" font-family="Inter,Segoe UI,sans-serif">{defs}{"".join(p1)}{link}{"".join(p2)}</svg></div>'
+
+def concepts_html(cs):
+    return '<h3 class="minih">Key RAG concepts</h3><div class="cons">' + "".join(f'<div class="con"><span>{i}</span><b>{E(t)}</b><span>{E(d)}</span></div>' for i, t, d in cs) + "</div>"
 
 def section(n, title, body, sub="", bg=""):
     s = f'<p class="sub">{sub}</p>' if sub else ""
@@ -223,11 +274,12 @@ def build(p):
         b = '<div class="shots">' + "".join(f'<a href="{u}" target="_blank" rel="noopener"><img src="{u}" alt="Screen {i+1}" loading="lazy"></a>' for i, u in enumerate(p["screens"])) + "</div>"
         n += 1; out.append(section(n, ("Screens", "Inside the app"), b, bg="pink"))
     hw = ""
+    if p.get("rag"): hw += rag_svg(p["rag"]) + concepts_html(p["rag"]["concepts"])
     if p.get("infographic"): hw += f'<div class="info"><a href="{p["infographic"]}" target="_blank" rel="noopener"><img src="{p["infographic"]}" alt="{E(p["name"])} infographic" loading="lazy"></a></div>'
     if p.get("flow"): hw += f'<div class="flow">🔄 {E(p["flow"])}</div>'
     if p.get("how"): hw += '<ul class="bul">' + "".join(f"<li>{h}</li>" for h in p["how"]) + "</ul>"
     if hw:
-        n += 1; out.append(section(n, ("How it works", "Under the hood"), hw, sub="Click the picture to open it full size." if p.get("infographic") else ""))
+        n += 1; out.append(section(n, ("How it works", "Under the hood"), hw, sub=("How RAG (retrieval-augmented generation) works here: the AI answers only from evidence it retrieves." if p.get("rag") else ("Click the picture to open it full size." if p.get("infographic") else ""))))
     if p.get("safeguards"):
         n += 1; out.append(section(n, ("Responsible AI", "Reliability safeguards"), '<div class="card"><ul>' + "".join(f"<li>{E(s)}</li>" for s in p["safeguards"]) + "</ul></div>", bg="lav"))
     vb = '<div class="vals">' + "".join(f'<div class="val"><span class="i">{i}</span><b>{E(a)}</b><span>{E(c)}</span></div>' for i, a, c in p["value"]) + "</div>"
