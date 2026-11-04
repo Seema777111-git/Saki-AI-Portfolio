@@ -295,7 +295,7 @@ def build(p):
 <style>{CSS}</style></head><body>
 {''.join(out)}
 <script>const io=new IntersectionObserver(es=>es.forEach(e=>{{if(e.isIntersecting){{e.target.classList.add("in");io.unobserve(e.target)}}}}),{{threshold:.08}});document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
-const tell=()=>parent.postMessage({{caseHeight:document.documentElement.scrollHeight}},"*");addEventListener("load",tell);addEventListener("resize",tell);setTimeout(tell,1500);</script>
+const tell=()=>{{const f=document.querySelector(".foot");const h=Math.ceil(f.getBoundingClientRect().bottom+scrollY);parent.postMessage({{caseHeight:h}},"*")}};addEventListener("load",tell);addEventListener("resize",tell);new ResizeObserver(tell).observe(document.body);setTimeout(tell,800);setTimeout(tell,2500);</script>
 </body></html>"""
 
 if __name__ == "__main__":
