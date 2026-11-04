@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keyword Strip</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#fff;font-family:Inter,"Segoe UI",system-ui,sans-serif;overflow:hidden;height:100%}
+.wrap{height:100%;display:flex;align-items:center;border-top:1px solid #EADFF7;border-bottom:1px solid #EADFF7;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.t{display:flex;gap:22px;width:max-content;white-space:nowrap;animation:m 45s linear infinite}
+.wrap:hover .t{animation-play-state:paused}
+@keyframes m{to{transform:translateX(-50%)}}
+.t span{font-size:14px;color:#7137B8}
+.t i{font-style:normal;color:#D94D9B}
+.t.pill{gap:10px}.t.pill span{background:#F6F0FD;border:1px solid #EADFF7;border-radius:999px;padding:5px 13px;color:#45404B;font-size:13px}
+@media (prefers-reduced-motion:reduce){.t{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="t" id="t"></div></div>
+<script>
+// ?set=tech shows the technology ticker; default shows the keyword strip
+const tech=new URLSearchParams(location.search).get("set")==="tech";
+const W=tech
+ ?["Python","AutoGen","CrewAI","LangGraph","LangChain","OpenAI","Gemini","Claude","FastAPI","React","Streamlit","PostgreSQL","Supabase","Docker","n8n","FAISS","Postman","Jira"]
+ :["AI Agents","Multi-Agent Workflows","RAG Knowledge Assistants","SaaS MVPs","Workflow Automation","Business Intelligence","Product Strategy","Solution Design"];
+const t=document.getElementById("t");
+if(tech){t.classList.add("pill");t.style.animationDirection="reverse";t.style.animationDuration="35s"}
+const one=W.map(w=>tech?`<span>${w}</span>`:`<span>${w}</span><i>✦</i>`).join("");
+t.innerHTML=one+one;
+</script>
+</body>
+</html>
