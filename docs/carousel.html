@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rayalahseema · AI Projects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--purple:#7137B8;--pink:#D94D9B;--lav:#C6A6F2;--ink:#45404B;--muted:#6E6877;--line:#EADFF7;--shadow:0 8px 24px rgba(113,55,184,.12)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#fff;font-family:Inter,"Segoe UI",system-ui,sans-serif;color:var(--ink);overflow:hidden}
+.top{display:flex;justify-content:flex-end;gap:8px;padding:8px 14px 0}
+.arr{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--purple);font-size:18px;cursor:pointer;box-shadow:var(--shadow);transition:background .2s,color .2s}
+.arr:hover{background:var(--purple);color:#fff}
+.track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:10px 14px 16px;scrollbar-width:none}
+.track::-webkit-scrollbar{display:none}
+.card{flex:0 0 280px;scroll-snap-align:start;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);
+  text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+.card:hover{transform:translateY(-5px);box-shadow:0 16px 36px rgba(217,77,155,.22)}
+.card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border-bottom:1px solid var(--line);background:#F6F0FD}
+.body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.chip{align-self:flex-start;font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px}
+.chip.p{background:#F3EBFD;color:var(--purple)}.chip.k{background:#FDEAF4;color:var(--pink)}
+h3{font-family:"Plus Jakarta Sans",Inter,sans-serif;font-size:17px;font-weight:800;color:var(--purple)}
+p{font-size:13px;line-height:1.45;color:var(--muted);flex:1}
+.tech{display:flex;gap:5px;flex-wrap:nowrap;overflow:hidden}
+.tech span{font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:#F6F0FD;color:var(--purple);white-space:nowrap}
+.cta{font-size:12.5px;font-weight:600;color:var(--pink)}
+.dots{display:flex;gap:6px;justify-content:center;padding-bottom:6px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--lav);opacity:.5;transition:all .25s}
+.dots i.on{opacity:1;background:var(--pink);width:20px;border-radius:6px}
+@media (max-width:520px){.card{flex-basis:82%}.top{display:none}}
+</style>
+</head>
+<body>
+<div class="top"><button class="arr" id="prev" aria-label="Previous project">‹</button><button class="arr" id="next" aria-label="Next project">›</button></div>
+<div class="track" id="track"></div>
+<div class="dots" id="dots"></div>
+<script>
+const CDN="https://cdn.jsdelivr.net/gh/Seema777111-git/Saki-AI-Portfolio@5f991fc/";
+const N="https://rural-lunch-f54.notion.site/";
+// To add a project: add one line here. Order = order on the page.
+const P=[
+ ["ReviewLens","AI data analysis","ReviewLens","40e35114c67581c185fdc5f2b3431e70","Upload customer reviews and get every review tagged, top pros and cons and a weekly insights report.",["LangChain","Pydantic","Streamlit"]],
+ ["BizRadar AI","Market research","BizRadar-AI","40d35114c675819baffcc875e483c432","Enter an idea and a city. Five AI agents return a sourced market report in about a minute.",["Multi-agent","OpenAI","Streamlit"]],
+ ["DataSherpa AI","AI data analysis","DataSherpa-AI","40d35114c675810bbb1cde9163ce8d71","Upload sales data, ask in plain English and approve a report where every number is verified.",["Multi-agent","FastAPI","React"]],
+ ["Smart Cater AI","Sales automation","SmartCater-AI","40d35114c675815480fffd5b2a3debda","From chat enquiry to approved quotation PDF in the client's inbox, on autopilot.",["n8n","Gemini","Supabase"]],
+ ["SlotEase","Business software","SlotEase","40d35114c6758144a9c4e10f27fc1beb","Online booking for salons, clinics and physio centres, with no double bookings.",["FastAPI","React","PostgreSQL"]],
+ ["Hybrid RAG","RAG and search","Hybrid-RAG","40d35114c675815aab7bd09f4ebff5f8","Document Q&A with vector search and a knowledge graph. Every answer shows its evidence.",["RAG","FAISS","Knowledge graph"]],
+ ["TN Farmer Scheme AI","RAG and search","TN-Farmer-Scheme-AI","40d35114c67581b6b247c0c4b5573d78","Ask in English, Tamil or Tanglish and get answers from official scheme data.",["RAG","FAISS","Guardrails"]],
+ ["Voice AI Agent","Voice and automation","Voice-AI-Agent","40d35114c6758124bd5edc3d7a80de72","Customers talk to it on Telegram: live prices, calculated quotes and emails, in text and voice.",["n8n","OpenAI","Telegram"]]
+];
+const track=document.getElementById("track"),dots=document.getElementById("dots");
+track.innerHTML=P.map(([t,c,dir,id,d,tech],i)=>`<a class="card" href="${N+id}" target="_blank" rel="noopener">
+<img src="${CDN+dir}/images/thumbnail.jpg" alt="${t}" loading="eager">
+<div class="body"><span class="chip ${i%2?"k":"p"}">${c}</span><h3>${t}</h3><p>${d}</p>
+<div class="tech">${tech.map(x=>`<span>${x}</span>`).join("")}</div><span class="cta">▶ Demo &amp; case study →</span></div></a>`).join("");
+dots.innerHTML=P.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("");
+const step=()=>track.querySelector(".card").offsetWidth+18;
+const go=dir=>{const max=track.scrollWidth-track.clientWidth-4;
+  if(dir>0&&track.scrollLeft>=max)track.scrollTo({left:0});else track.scrollBy({left:dir*step()})};
+document.getElementById("next").onclick=()=>go(1);
+document.getElementById("prev").onclick=()=>go(-1);
+track.addEventListener("scroll",()=>{const i=Math.round(track.scrollLeft/step());[...dots.children].forEach((d,k)=>d.classList.toggle("on",k===i))});
+let paused=false;["mouseenter","touchstart","focusin"].forEach(e=>document.body.addEventListener(e,()=>paused=true));
+document.body.addEventListener("mouseleave",()=>paused=false);
+if(!matchMedia("(prefers-reduced-motion: reduce)").matches)setInterval(()=>{if(!paused)go(1)},3500);
+</script>
+</body>
+</html>

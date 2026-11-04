@@ -2,7 +2,7 @@
 Edit the PROJECTS data below and run:  python docs/build_projects.py"""
 import html, os
 OUT = os.path.join(os.path.dirname(__file__), "projects")
-HOME = "https://rural-lunch-f54.notion.site/40d35114c675811b92afe36f58b0b3b5"
+HOME = "https://seema777111-git.github.io/Saki-AI-Portfolio/"
 RAW = "https://raw.githubusercontent.com/Seema777111-git/Saki-AI-Portfolio/main/"
 CDN = "https://cdn.jsdelivr.net/gh/Seema777111-git/"
 E = html.escape
@@ -127,7 +127,7 @@ PROJECTS = [
 ]
 
 CSS = """
-html{scrollbar-width:none;-ms-overflow-style:none}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
+html.embedded{scrollbar-width:none;-ms-overflow-style:none}html.embedded::-webkit-scrollbar,html.embedded body::-webkit-scrollbar{display:none;width:0;height:0}
 :root{color-scheme:light;--purple:#7137B8;--pink:#D94D9B;--lav:#C6A6F2;--char:#45404B;--muted:#6E6877;--line:#EADFF7;--lav-bg:#F6F0FD;--pink-bg:#FDF2F8;
 --shadow:0 6px 22px rgba(113,55,184,.09);--glow:0 12px 32px rgba(217,77,155,.20);--h:"Plus Jakarta Sans",Inter,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -289,7 +289,7 @@ def build(p):
     note = f'<p>{E(p["note"])}</p>' if p.get("note") else ""
     out.append(f'<footer class="foot">{note}<div class="btns"><a class="btn" href="{HOME}" target="_top">← Back to portfolio</a><a class="btn primary" href="mailto:saki777111@gmail.com">📧 saki777111@gmail.com</a></div></footer>')
     return f"""<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><script>if(window.self!==window.top)document.documentElement.classList.add("embedded")</script>
 <title>{E(p["name"])} · Case Study</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
 <style>{CSS}</style></head><body>

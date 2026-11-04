@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>if(window.self!==window.top)document.documentElement.classList.add("embedded")</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rayalahseema · AI Product Builder</title>
@@ -8,7 +9,7 @@
 <meta name="color-scheme" content="light">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Poppins:wght@500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
-html{scrollbar-width:none;-ms-overflow-style:none}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
+html.embedded{scrollbar-width:none;-ms-overflow-style:none}html.embedded::-webkit-scrollbar,html.embedded body::-webkit-scrollbar{display:none;width:0;height:0}
 :root{
   --purple:#7137B8; --pink:#D94D9B; --lav:#C6A6F2; --white:#FFFFFF; --char:#45404B;
   --lav-bg:#F6F0FD; --pink-bg:#FDF2F8; --line:#EADFF7; --muted:#6E6877;
@@ -353,7 +354,7 @@ ct.innerHTML=PROJECTS.map(p=>`<article class="pc">
   ${p.img?`<img src="${p.img}" alt="${p.t}" loading="lazy">`:p.dir?`<img src="${CDN+p.dir}/images/thumbnail.jpg" alt="${p.t}" loading="lazy">`:`<div style="height:118px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#F1E8FD,#FDE9F4);color:#7137B8;font-size:12px;font-weight:600">Image coming</div>`}
   <div class="pb"><h3>${p.t}</h3><p>${p.d}</p>
   <div class="chips">${p.tech.map(x=>`<span>${x}</span>`).join("")}</div>
-  <div class="plinks"><a href="${p.local||N+p.id}" target="_blank" rel="noopener">▶ Demo &amp; case study</a><a href="${p.gh||GH+p.dir}" target="_blank" rel="noopener">GitHub</a></div></div></article>`).join("");
+  <div class="plinks"><a href="projects/${p.dir}.html" target="_top">▶ Demo &amp; case study</a><a href="${p.gh||GH+p.dir}" target="_blank" rel="noopener">GitHub</a></div></div></article>`).join("");
 dots.innerHTML=PROJECTS.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("");
 const step=()=>ct.querySelector(".pc").offsetWidth+18;
 document.getElementById("next").onclick=()=>ct.scrollBy({left:step()});
