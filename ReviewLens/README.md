@@ -7,7 +7,6 @@
 ## 🎥 Demo
 
 - [▶ Watch the demo video](demo/reviewlens-demo.mp4)
-- [🌐 Try the live demo](https://reviewlens.royalseemah.tech/)
 - [Source code](https://github.com/Seema777111-git/ReviewLens)
 
 ## The business problem
