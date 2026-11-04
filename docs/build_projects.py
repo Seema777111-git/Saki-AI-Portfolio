@@ -274,7 +274,7 @@ def build(p):
         b = '<div class="shots">' + "".join(f'<a href="{u}" target="_blank" rel="noopener"><img src="{u}" alt="Screen {i+1}" loading="lazy"></a>' for i, u in enumerate(p["screens"])) + "</div>"
         n += 1; out.append(section(n, ("Screens", "Inside the app"), b, bg="pink"))
     hw = ""
-    if p.get("rag"): hw += rag_svg(p["rag"]) + concepts_html(p["rag"]["concepts"])
+    if p.get("rag"): hw += f'<div class="info"><a href="{RAW}{p["slug"]}/images/how-it-works.jpg" target="_blank" rel="noopener"><img src="{RAW}{p["slug"]}/images/how-it-works.jpg" alt="How RAG works in {E(p["name"])}" loading="lazy"></a></div>' + concepts_html(p["rag"]["concepts"])
     if p.get("infographic"): hw += f'<div class="info"><a href="{p["infographic"]}" target="_blank" rel="noopener"><img src="{p["infographic"]}" alt="{E(p["name"])} infographic" loading="lazy"></a></div>'
     if p.get("flow"): hw += f'<div class="flow">🔄 {E(p["flow"])}</div>'
     if p.get("how"): hw += '<ul class="bul">' + "".join(f"<li>{h}</li>" for h in p["how"]) + "</ul>"
