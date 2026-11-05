@@ -253,10 +253,10 @@ def build(p):
     vids = p["videos"]
     if len(vids) > 1:
         tabs = "".join(f'<button class="{"on" if i == 0 else ""}" data-i="{i}">{E(t)}</button>' for i, (t, _, _) in enumerate(vids))
-        vb = f'<div class="tabs">{tabs}</div><video id="v" controls preload="metadata" playsinline src="{vids[0][1]}"></video><p class="cap" id="vc">{E(vids[0][2])}</p><script>const V={[ [u, c] for _, u, c in vids ]!r};document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{{document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("on"));b.classList.add("on");const [u,c]=V[b.dataset.i];const v=document.getElementById("v");v.src=u;document.getElementById("vc").textContent=c}})</script>'
+        vb = f'<div class="tabs">{tabs}</div><video id="v" controls controlslist="nodownload" disablepictureinpicture oncontextmenu="return false" preload="metadata" playsinline src="{vids[0][1]}"></video><p class="cap" id="vc">{E(vids[0][2])}</p><script>const V={[ [u, c] for _, u, c in vids ]!r};document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{{document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("on"));b.classList.add("on");const [u,c]=V[b.dataset.i];const v=document.getElementById("v");v.src=u;document.getElementById("vc").textContent=c}})</script>'
         title = ("Demo", "Watch it working")
     else:
-        vb = f'<video controls preload="metadata" playsinline src="{vids[0][1]}"></video><p class="cap">{E(vids[0][2])}</p>'
+        vb = f'<video controls controlslist="nodownload" disablepictureinpicture oncontextmenu="return false" preload="metadata" playsinline src="{vids[0][1]}"></video><p class="cap">{E(vids[0][2])}</p>'
         title = ("Demo", vids[0][0].replace("Demo", "Watch it working"))
     n += 1; out.append(section(n, title, vb, bg="lav"))
     sol = "".join(f"<li><b>{E(a)}</b>: {E(b)}</li>" for a, b in p["solution"])
